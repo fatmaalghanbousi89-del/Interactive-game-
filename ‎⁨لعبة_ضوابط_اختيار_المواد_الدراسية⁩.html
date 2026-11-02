@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة ضوابط اختيار المواد الدراسية للصف الحادي عشر</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Confetti JS for celebration animations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #064e3b 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* Classic welcome card style */
+        .welcome-box {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid #cbd5e1;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 py-4 px-6 shadow-2xl">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/30 text-xl">
+                    📚
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-black tracking-wide text-white">تحدي ضوابط اختيار المواد للحادي عشر</h1>
+                    <p class="text-xs text-emerald-400 font-medium">للعام الدراسي 2027 / 2028 م | سلطنة عمان</p>
+                </div>
+            </div>
+            <div class="bg-slate-800/90 px-4 py-2 rounded-2xl text-xs md:text-sm border border-slate-700/60 shadow-inner flex items-center gap-2">
+                <span>إعداد أخصائية التوجيه:</span> <span class="font-bold text-amber-400">فاطمة الغنبوصي</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content / Game Container -->
+    <main class="max-w-3xl mx-auto p-4 md:p-6 w-full flex-grow flex flex-col justify-center my-8">
+
+        <!-- Welcome Screen (Official & Centered Design) -->
+        <div id="welcome-screen" class="welcome-box text-slate-900 rounded-3xl shadow-2xl p-8 md:p-12 text-center transform transition-all border-4 border-emerald-500/30">
+            <div class="w-24 h-24 bg-gradient-to-tr from-emerald-700 to-teal-600 text-white rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-xl border-2 border-emerald-400">
+                🇴🇲
+            </div>
+            <div class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-4 py-1 rounded-full mb-4 border border-emerald-200">
+                وزارة التعليم - سلطنة عمان
+            </div>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-4 leading-tight">ضوابط اختيار المواد الدراسية للصف الحادي عشر</h2>
+            <p class="text-slate-700 mb-8 max-w-lg mx-auto leading-relaxed text-sm md:text-base font-medium">
+                برنامج توجيهي تفاعلي لاختبار مدى استيعاب ضوابط اختيار المواد الدراسية للعام الدراسي 2027/2028 م. كن واعياً واختر مستقبلك وتخصصك بحكمة ودقة.
+            </p>
+            <div class="mb-8 text-xs font-bold text-slate-600 bg-slate-200/60 py-2 px-4 rounded-xl inline-block">
+                إعداد أخصائية التوجيه: <span class="text-emerald-800">فاطمة الغنبوصي</span>
+            </div>
+            <div>
+                <button type="button" onclick="startGame()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-12 py-4 rounded-2xl shadow-xl shadow-emerald-600/30 transition transform hover:-translate-y-1 text-lg cursor-pointer z-20 relative">
+                    ابدأ الاختبار التفاعلي 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden glass-card text-slate-800 rounded-3xl shadow-2xl p-6 md:p-10">
+            <!-- Progress Bar & Score -->
+            <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                <span id="question-counter" class="text-xs md:text-sm font-bold text-slate-600 bg-slate-100 px-4 py-1.5 rounded-full shadow-sm">السؤال 1 من 5</span>
+                <span class="text-xs md:text-sm font-bold text-emerald-700 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-100 shadow-sm">النقاط: <span id="score-val">0</span></span>
+            </div>
+
+            <!-- Question text -->
+            <h3 id="question-text" class="text-lg md:text-2xl font-black text-slate-900 mb-6 leading-relaxed">
+                <!-- Question loaded dynamically -->
+            </h3>
+
+            <!-- Options Grid (Enhanced contrast with solid colored backgrounds) -->
+            <div id="options-container" class="grid grid-cols-1 gap-4 mb-6">
+                <!-- Options loaded dynamically -->
+            </div>
+
+            <!-- Feedback Box (Clean design without technical mentions) -->
+            <div id="feedback-box" class="hidden p-4 rounded-2xl mb-6 text-center font-bold text-base transition-all shadow-md">
+                <!-- Feedback message -->
+            </div>
+
+            <!-- Next Button -->
+            <div class="flex justify-end">
+                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-3 rounded-2xl shadow-lg transition transform hover:-translate-y-0.5">
+                    السؤال التالي ➡️
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="result-screen" class="hidden glass-card text-slate-800 rounded-3xl shadow-2xl p-8 md:p-12 text-center">
+            <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6 shadow-inner">
+                🏆
+            </div>
+            <h2 class="text-3xl font-black text-slate-900 mb-2">أحسنت وبارك الله في جهودك!</h2>
+            <p class="text-slate-600 mb-6 text-base" id="result-message">لقد أتممت التحدي بنجاح وتعرفت على ضوابط المواد الدراسية.</p>
+            <div class="text-3xl font-black text-emerald-600 mb-6 bg-emerald-50 py-3 px-6 rounded-2xl inline-block border border-emerald-100" id="final-score">النتيجة: 5 / 5</div>
+            <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-2xl text-indigo-900 mb-8 text-xs md:text-sm leading-relaxed">
+                💡 <strong>نصيحة توجيهية:</strong> "كن واعياً واختار المواد الدراسية التي تناسب ميولك وقدراتك وتخصصك المستقبلي"
+            </div>
+            <button onclick="restartGame()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-8 py-3.5 rounded-2xl shadow-xl transition transform hover:-translate-y-1">
+                إعادة اللعب 🔄
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-slate-400 border-t border-slate-800/80 bg-slate-900/40">
+        جميع الحقوق محفوظة - وزارة التعليم (سلطنة عمان) | إعداد أخصائية التوجيه: فاطمة الغنبوصي
+    </footer>
+
+    <!-- Audio Synthesizer & Game Logic -->
+    <script>
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+        }
+
+        // Play Success sound
+        function playSuccessSound() {
+            try {
+                initAudio();
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const now = audioCtx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50]; 
+                notes.forEach((freq, index) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + index * 0.08);
+                    
+                    gain.gain.setValueAtTime(0.2, now + index * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.08 + 0.3);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start(now + index * 0.08);
+                    osc.stop(now + index * 0.08 + 0.3);
+                });
+            } catch (e) {
+                console.log("Audio not allowed yet", e);
+            }
+        }
+
+        // Play Error / Alarm sound
+        function playErrorSound() {
+            try {
+                initAudio();
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const now = audioCtx.currentTime;
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(150, now + 0.15);
+                
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } catch (e) {
+                console.log("Audio not allowed yet", e);
+            }
+        }
+
+        // Confetti effect trigger
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // Quiz Data (Expanded to cover all rules)
+        const quizData = [
+            {
+                question: "ما هو الشرط للتغيير من مادة الرياضيات الأساسية إلى مادة الرياضيات المتقدمة في الصف الثاني عشر؟",
+                options: [
+                    "الحصول على أي درجة يختارها الطالب بناءً على رغبته.",
+                    "الحصول على درجة (80%) فأعلى في الرياضيات الأساسية في الصف الحادي عشر.",
+                    "لا يمكن التغيير نهائياً تحت أي ظرف."
+                ],
+                correct: 1
+            },
+            {
+                question: "ما هي القاعدة المتبعة للتغيير من مادة الرياضيات المتقدمة إلى مادة الرياضيات الأساسية في الصف الثاني عشر؟",
+                options: [
+                    "لا يمكن التغيير مطلقاً.",
+                    "بما يتناسب مع رغبات الطالب وقدراته.",
+                    "بشرط الحصول على 90% في المتقدمة."
+                ],
+                correct: 1
+            },
+            {
+                question: "بالنسبة لمواد العلوم (الأحياء، الفيزياء، الكيمياء، العلوم البيئية)، كم مادة يلتزم الطالب بدراستها في الصف الحادي عشر؟",
+                options: [
+                    "جميع مواد العلوم الأربعة إجبارياً.",
+                    "إحدى مواد العلوم فقط، ويمكنه اختيار أكثر من مادة.",
+                    "لا يمكن دراسة أي مادة علوم في الحادي عشر."
+                ],
+                correct: 1
+            },
+            {
+                question: "إذا اخترت مادة واحدة فقط من مواد العلوم في الصف الحادي عشر، هل يمكنك دراسة مادة علوم أخرى لم تتم دراستها في الحادي عشر في الصف الثاني عشر؟",
+                options: [
+                    "نعم، مسموح بذلك بحرية تامة.",
+                    "لا يمكن للطالب اختيار أي مادة من مواد العلوم في الصف الثاني عشر في حال لم يتم دراستها في الصف الحادي عشر.",
+                    "نعم، بشرط موافقة ولي الأمر."
+                ],
+                correct: 1
+            },
+            {
+                question: "ما هي القاعدة الخاصة بمواد المهارات الفردية؟",
+                options: [
+                    "يحق للطالب اختيار مادتين فرديتين.",
+                    "يحق للطالب اختيار مادة واحدة فقط من مواد المهارات الفردية، مع إمكانية تغيير المادة بمادة أخرى من مجموعة المواد الاختيارية في الثاني عشر.",
+                    "لا توجد مواد مهارات فردية في الصف الحادي عشر."
+                ],
+                correct: 1
+            },
+            {
+                question: "هل يمكن دراسة مادة تقنية المعلومات في الصف الثاني عشر إذا لم يتم دراستها في الصف الحادي عشر؟",
+                options: [
+                    "نعم، يمكن دراستها مباشرة.",
+                    "لا يمكن دراسة تقنية المعلومات في الصف الثاني عشر إلا إذا تمت دراستها في الصف الحادي عشر.",
+                    "متاحة فقط للطلبة المتفوقين في الرياضة."
+                ],
+                correct: 1
+            },
+            {
+                question: "بخصوص مهارات اللغة الإنجليزية في الصف الثاني عشر، ما هي قاعدة دراستها؟",
+                options: [
+                    "لا يمكن للطالب دراسة مادة مهارات اللغة الإنجليزية في الصف الثاني عشر إلا إذا تمت دراستها في الصف الحادي عشر أو حصل على درجة (80%) فأعلى في مادة اللغة الإنجليزية في الصف الحادي عشر.",
+                    "متاحة لكل الطلاب بغض النظر عن الحادي عشر.",
+                    "مادة اختيارية إجبارية بدون شروط."
+                ],
+                correct: 0
+            },
+            {
+                question: "ما هي مادة اللغات التي يلتزم الطالب بدراستها في الصف الحادي عشر؟",
+                options: [
+                    "اللغة الفرنسية وحدها إجبارياً.",
+                    "مادة اللغة الألمانية أو مادة اللغة الفرنسية أو مادة اللغة الصينية التي اختار دراستها في الصف الحادي عشر.",
+                    "أي لغة أجنبية يختارها الطالب في العالم."
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionCounter = document.getElementById('question-counter');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackBox = document.getElementById('feedback-box');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreVal = document.getElementById('score-val');
+        const finalScore = document.getElementById('final-score');
+
+        function startGame() {
+            if (welcomeScreen) welcomeScreen.classList.add('hidden');
+            if (quizScreen) quizScreen.classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            if (scoreVal) scoreVal.textContent = score;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            
+            const q = quizData[currentQuestionIndex];
+            questionCounter.textContent = `السؤال ${currentQuestionIndex + 1} من ${quizData.length}`;
+            questionText.textContent = q.question;
+
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = "w-full text-right p-4 md:p-5 rounded-2xl border-2 border-indigo-200 bg-white hover:bg-indigo-50 font-semibold transition text-slate-800 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 cursor-pointer";
+                btn.innerHTML = `<span class="text-sm md:text-base leading-relaxed">${opt}</span>`;
+                btn.onclick = () => selectOption(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizData[currentQuestionIndex];
+            const allBtns = optionsContainer.getElementsByTagName('button');
+
+            if (selectedIndex === q.correct) {
+                score += 10;
+                scoreVal.textContent = score;
+                selectedBtn.className = "w-full text-right p-4 md:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-100 font-bold transition text-emerald-950 flex justify-between items-center shadow-lg transform scale-[1.01]";
+                
+                feedbackBox.className = "p-4 rounded-2xl mb-6 text-center font-bold text-base bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-sm flex items-center justify-center gap-2";
+                feedbackBox.innerHTML = `🌟 إجابة صحيحة وموفقة! أحسنت بارك الله فيك.`;
+                
+                playSuccessSound();
+                triggerConfetti();
+            } else {
+                selectedBtn.className = "w-full text-right p-4 md:p-5 rounded-2xl border-2 border-rose-500 bg-rose-100 font-bold transition text-rose-950 flex justify-between items-center shadow-lg";
+                
+                allBtns[q.correct].className = "w-full text-right p-4 md:p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-100 font-bold transition text-emerald-950 flex justify-between items-center shadow-lg";
+
+                feedbackBox.className = "p-4 rounded-2xl mb-6 text-center font-bold text-base bg-rose-100 text-rose-800 border border-rose-300 shadow-sm flex items-center justify-center gap-2";
+                feedbackBox.innerHTML = `⚠️ إجابة غير دقيقة. الإجابة الصحيحة محددة باللون الأخضر أعلاه.`;
+                
+                playErrorSound();
+            }
+
+            feedbackBox.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            finalScore.textContent = `مجموع النقاط: ${score} من ${quizData.length * 10}`;
+            triggerConfetti();
+        }
+
+        function restartGame() {
+            resultScreen.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
